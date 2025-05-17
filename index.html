@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mecánica de Fluidos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.18/katex.min.css">
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: #f0f4f8; 
+      margin: 0; 
+      color: #222; 
+      line-height: 1.6;
+    }
+    header { 
+      background: linear-gradient(135deg, #004a99, #0066cc); 
+      color: white; 
+      padding: 1rem 2rem; 
+      text-align: center; 
+      position: fixed; 
+      top: 0; 
+      width: 100%; 
+      z-index: 10; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    nav a { 
+      color: white; 
+      margin: 0 12px; 
+      text-decoration: none; 
+      font-weight: 600; 
+      transition: all 0.3s ease;
+    }
+    nav a:hover { 
+      color: #ffc107; 
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+    }
+    main { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 120px 1rem 2rem; 
+    }
+    section { 
+      background: white; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+      margin-bottom: 2rem; 
+      padding: 2rem; 
+      transition: transform 0.3s ease;
+    }
+    section:hover {
+      transform: translateY(-5px);
+    }
+    h2 { 
+      border-bottom: 3px solid #004a99; 
+      color: #004a99; 
+      margin-top: 0; 
+      padding-bottom: 0.5rem; 
+      font-weight: 700;
+    }
+    h3 {
+      color: #0066cc;
+      margin-top: 1.5rem;
+    }
+    p { 
+      line-height: 1.7; 
+      text-align: justify;
+    }
+    .equation-container {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid #004a99;
+      overflow-x: auto;
+    }
+    .equation {
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+    .equation-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #555;
+      text-align: center;
+    }
+    figure { 
+      text-align: center; 
+      margin: 1.5rem auto; 
+      max-width: 90%;
+    }
+    figure img { 
+      max-width: 100%; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    figure img:hover {
+      transform: scale(1.02);
+    }
+    figcaption { 
+      font-size: 0.9rem; 
+      color: #555; 
+      margin-top: 0.5rem; 
+      font-style: italic;
+    }
+    .controls { 
+      text-align: center; 
+      margin: 1.5rem 0; 
+    }
+    select, button { 
+      font-size: 1rem; 
+      padding: 0.6rem 1.2rem; 
+      margin: 0 0.5rem; 
+      border-radius: 6px; 
+      border: 1px solid #004a99; 
+      cursor: pointer; 
+      background: white; 
+      color: #004a99; 
+      transition: all 0.3s ease;
+    }
+    select:hover, button:hover { 
+      background: #004a99; 
+      color: white; 
+      box-shadow: 0 2px 8px rgba(0,74,153,0.3);
+    }
+    #simCanvas { 
+      display: block; 
+      margin: 1.5rem auto; 
+      background: #004a99; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .theory-box {
+      background: #e6f2ff;
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid #0066cc;
+    }
+    .theory-box h4 {
+      margin-top: 0;
+      color: #004a99;
+    }
+    .key-concept {
+      font-weight: bold;
+      color: #004a99;
+    }
+    .applications {
+      background: #f0fff0;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-left: 4px solid #2e8b57;
+    }
+    .applications h4 {
+      color: #2e8b57;
+      margin-top: 0;
+    }
+    .historical-note {
+      background: #fff8e6;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-left: 4px solid #ffa500;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mecánica de Fluidos</h1>
+    <nav>
+      <a href="#intro">Introducción</a>
+      <a href="#conceptos">Conceptos Fundamentales</a>
+      <a href="#simulacion">Simulación de Flujo</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Introducción -->
+    <section id="intro">
+      <h2>Introducción</h2>
+      <p>La mecánica de fluidos es la rama de la física que estudia el comportamiento de líquidos y gases, tanto en reposo (hidrostática) como en movimiento (hidrodinámica), y las fuerzas que actúan sobre ellos. Esta disciplina combina principios matemáticos con observaciones experimentales para modelar fenómenos naturales y procesos industriales.</p>
+      
+      <div class="theory-box">
+        <h4>¿Qué es un fluido?</h4>
+        <p>Un fluido es una sustancia que se deforma continuamente bajo la acción de esfuerzos cortantes, por pequeños que estos sean. A diferencia de los sólidos, los fluidos no tienen forma propia sino que adoptan la del recipiente que los contiene. Esta propiedad fundamental diferencia el comportamiento de líquidos y gases (fluidos) de los sólidos.</p>
+      </div>
+      
+      <p>Los principios de la mecánica de fluidos son esenciales en campos como:</p>
+      <ul>
+        <li>Ingeniería (civil, mecánica, química, aeroespacial)</li>
+        <li>Meteorología y oceanografía</li>
+        <li>Medicina (flujo sanguíneo, respiración)</li>
+        <li>Energía (turbinas, oleoductos, energías renovables)</li>
+        <li>Biología (movimiento de organismos en fluidos)</li>
+      </ul>
+      
+      <div class="historical-note">
+        <p>El estudio sistemático de los fluidos comenzó con Arquímedes en el siglo III a.C., quien formuló el principio de flotabilidad. Sin embargo, el desarrollo moderno de la mecánica de fluidos se consolidó en el siglo XVIII con los trabajos de Bernoulli, Euler y Navier-Stokes.</p>
+      </div>
+    </section>
+
+    <!-- Conceptos Fundamentales -->
+    <section id="conceptos">
+      <h2>Conceptos Fundamentales</h2>
+
+      <h3>Fluido</h3>
+      <p>Como mencionamos, un fluido es una sustancia que se deforma continuamente bajo esfuerzos cortantes. Los fluidos incluyen tanto líquidos (que tienen volumen definido pero no forma) como gases (que no tienen ni volumen ni forma fijos).</p>
+      
+      <div class="theory-box">
+        <h4>Propiedades clave de los fluidos:</h4>
+        <ul>
+          <li><span class="key-concept">Cohesión:</span> Fuerza de atracción entre moléculas similares</li>
+          <li><span class="key-concept">Adhesión:</span> Fuerza de atracción entre moléculas diferentes</li>
+          <li><span class="key-concept">Compresibilidad:</span> Los gases son compresibles, los líquidos prácticamente incompresibles</li>
+          <li><span class="key-concept">Capilaridad:</span> Efecto de ascenso o descenso en tubos estrechos</li>
+        </ul>
+      </div>
+      
+      <figure>
+        <img src="img/fluidos.png" alt="Ejemplos de fluidos agua y aire">
+        <figcaption>Agua fluyendo.</figcaption>
+      </figure>
+
+      <h3>Densidad (ρ)</h3>
+      <p>La densidad es una propiedad fundamental que relaciona la masa de una sustancia con el volumen que ocupa. Es particularmente importante en fenómenos de flotabilidad y estratificación de fluidos.</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Ecuación de densidad</div>
+        <div class="equation">ρ = m / V</div>
+        <p>Donde:</p>
+        <ul>
+          <li>ρ = densidad (kg/m³)</li>
+          <li>m = masa (kg)</li>
+          <li>V = volumen (m³)</li>
+        </ul>
+      </div>
+      
+      <div class="applications">
+        <h4>Aplicaciones prácticas:</h4>
+        <p>La densidad determina la flotabilidad de objetos (principio de Arquímedes), la estratificación de fluidos en tanques de almacenamiento, y es crucial en el diseño de barcos y submarinos. En meteorología, las diferencias de densidad del aire causan los fenómenos de convección que generan vientos y tormentas.</p>
+      </div>
+      
+      <figure>
+        <img src="img/densidad.png" alt="Diagrama de densidad vs temperatura">
+        <figcaption>Variación de densidad con temperatura para el agua. Notar que generalmente la densidad disminuye con la temperatura.</figcaption>
+      </figure>
+
+      <h3>Presión (p)</h3>
+      <p>La presión es una medida de la fuerza normal ejercida por un fluido por unidad de área. Es una cantidad escalar que se transmite por igual en todas las direcciones en un fluido en reposo (principio de Pascal).</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Definición básica de presión</div>
+        <div class="equation">p = F / A</div>
+        <p>Donde:</p>
+        <ul>
+          <li>p = presión (Pascales, Pa)</li>
+          <li>F = fuerza normal (N)</li>
+          <li>A = área (m²)</li>
+        </ul>
+      </div>
+      
+      <div class="equation-container">
+        <div class="equation-title">Presión hidrostática</div>
+        <div class="equation">p = p₀ + ρ g h</div>
+        <p>Donde:</p>
+        <ul>
+          <li>p₀ = presión en la superficie (Pa)</li>
+          <li>ρ = densidad del fluido (kg/m³)</li>
+          <li>g = aceleración gravitacional (9.81 m/s²)</li>
+          <li>h = profundidad (m)</li>
+        </ul>
+      </div>
+      
+      <div class="theory-box">
+        <h4>Principio de Pascal</h4>
+        <p>"La presión aplicada a un fluido confinado se transmite sin disminución a todas las partes del fluido y a las paredes del recipiente." Este principio es la base de sistemas hidráulicos como frenos de automóviles y prensas hidráulicas.</p>
+      </div>
+      
+      <figure>
+        <img src="img/presion.png" alt="Presión hidrostática">
+        <figcaption>La presión aumenta linealmente con la profundidad en un fluido en reposo. Cada metro de agua dulce (ρ≈1000 kg/m³) representa un aumento de presión de aproximadamente 9.81 kPa.</figcaption>
+      </figure>
+
+      <h3>Viscosidad (μ, ν)</h3>
+      <p>La viscosidad es la medida de la resistencia interna de un fluido a fluir. Describe la fricción interna entre capas de fluido que se mueven a diferentes velocidades (esfuerzo cortante).</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Ley de viscosidad de Newton</div>
+        <div class="equation">τ = μ · (dv/dy)</div>
+        <p>Donde:</p>
+        <ul>
+          <li>τ = esfuerzo cortante (Pa)</li>
+          <li>μ = viscosidad dinámica (Pa·s)</li>
+          <li>dv/dy = gradiente de velocidad (s⁻¹)</li>
+        </ul>
+      </div>
+      
+      <div class="equation-container">
+        <div class="equation-title">Viscosidad cinemática</div>
+        <div class="equation">ν = μ / ρ</div>
+        <p>Donde:</p>
+        <ul>
+          <li>ν = viscosidad cinemática (m²/s)</li>
+          <li>μ = viscosidad dinámica (Pa·s)</li>
+          <li>ρ = densidad (kg/m³)</li>
+        </ul>
+      </div>
+      
+      <div class="applications">
+        <h4>Importancia en la ingeniería</h4>
+        <p>La viscosidad afecta el diseño de sistemas de lubricación, procesos químicos, flujo en tuberías y resistencia aerodinámica. Los fluidos con alta viscosidad (como la miel) fluyen lentamente, mientras que los de baja viscosidad (como el agua) fluyen fácilmente.</p>
+      </div>
+      
+      <figure>
+        <img src="img/viscosidad.png" alt="Comparación de viscosidades">
+        <figcaption>Perfiles de velocidad para fluidos con diferente viscosidad. A mayor viscosidad, más uniforme es el perfil de velocidades.</figcaption>
+      </figure>
+
+      <h3>Número de Reynolds (Re)</h3>
+      <p>El número de Reynolds es un parámetro adimensional que predice el patrón de flujo (laminar o turbulento) en un sistema dado. Fue introducido por Osborne Reynolds en 1883.</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Número de Reynolds</div>
+        <div class="equation">Re = (ρ v L) / μ = (v L) / ν</div>
+        <p>Donde:</p>
+        <ul>
+          <li>ρ = densidad del fluido (kg/m³)</li>
+          <li>v = velocidad característica (m/s)</li>
+          <li>L = longitud característica (m)</li>
+          <li>μ = viscosidad dinámica (Pa·s)</li>
+          <li>ν = viscosidad cinemática (m²/s)</li>
+        </ul>
+      </div>
+      
+      <div class="theory-box">
+        <h4>Interpretación del número de Reynolds</h4>
+        <ul>
+          <li><span class="key-concept">Re &lt; 2300:</span> Flujo laminar (capas ordenadas)</li>
+          <li><span class="key-concept">2300 &lt; Re &lt; 4000:</span> Flujo de transición</li>
+          <li><span class="key-concept">Re &gt; 4000:</span> Flujo turbulento (movimiento caótico)</li>
+        </ul>
+        <p>Estos valores son aproximados y dependen de la geometría del sistema. Para tuberías, el diámetro es la longitud característica.</p>
+      </div>
+      
+      <figure>
+        <img src="img/reynolds.png" alt="Perfil laminar y turbulento">
+        <figcaption>Comparación de perfiles de velocidad en flujo laminar y turbulento. El flujo turbulento tiene mayor mezcla transversal pero también mayor pérdida de energía.</figcaption>
+      </figure>
+
+      <h3>Ecuación de Bernoulli</h3>
+      <p>La ecuación de Bernoulli, formulada por Daniel Bernoulli en 1738, describe la conservación de energía en un flujo ideal (sin viscosidad, incompresible, estacionario). Relaciona presión, velocidad y altura a lo largo de una línea de corriente.</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Ecuación de Bernoulli</div>
+        <div class="equation">p + ½ρv² + ρgh = constante</div>
+        <p>Donde:</p>
+        <ul>
+          <li>p = presión estática (Pa)</li>
+          <li>½ρv² = presión dinámica (energía cinética por unidad de volumen)</li>
+          <li>ρgh = presión hidrostática (energía potencial por unidad de volumen)</li>
+        </ul>
+      </div>
+      
+      <div class="applications">
+        <h4>Aplicaciones notables</h4>
+        <ul>
+          <li>Diseño de alas de avión (principio de sustentación)</li>
+          <li>Venturi metros para medir flujo</li>
+          <li>Chimeneas y sistemas de ventilación</li>
+          <li>Atomizadores y pulverizadores</li>
+        </ul>
+      </div>
+      
+      <div class="theory-box">
+        <h4>Limitaciones</h4>
+        <p>La ecuación de Bernoulli no considera:</p>
+        <ol>
+          <li>Viscosidad del fluido (fricción interna)</li>
+          <li>Transferencia de calor</li>
+          <li>Compresibilidad (para gases a alta velocidad)</li>
+          <li>Flujo no estacionario</li>
+        </ol>
+      </div>
+      
+      <figure>
+        <img src="img/bernoulli.png" alt="Ley de Bernoulli">
+        <figcaption>Ilustración del principio de Bernoulli en un tubo convergente-divergente. Al reducirse el área, aumenta la velocidad y disminuye la presión (y viceversa).</figcaption>
+      </figure>
+
+      <h3>Ecuación de Continuidad</h3>
+      <p>La ecuación de continuidad expresa el principio de conservación de masa para un flujo incompresible (densidad constante). Establece que el caudal volumétrico debe mantenerse constante a lo largo de un conducto.</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Ecuación de continuidad</div>
+        <div class="equation">A₁v₁ = A₂v₂ = Q = constante</div>
+        <p>Donde:</p>
+        <ul>
+          <li>A = área transversal (m²)</li>
+          <li>v = velocidad media (m/s)</li>
+          <li>Q = caudal volumétrico (m³/s)</li>
+        </ul>
+      </div>
+      
+      <div class="historical-note">
+        <p>Leonardo da Vinci ya había observado en el siglo XV que "el agua que pasa por diferentes partes de un río en un mismo tiempo es la misma cuando el río es más ancho y más lento que cuando es estrecho y rápido", un precursor cualitativo de la ecuación de continuidad.</p>
+      </div>
+      
+      <figure>
+        <img src="img/continuidad.png" alt="Continuidad en tubería">
+        <figcaption>Ejemplo de aplicación de la ecuación de continuidad. Al reducirse el diámetro de la tubería a la mitad, el área se reduce a 1/4 y la velocidad aumenta 4 veces para mantener el mismo caudal.</figcaption>
+      </figure>
+
+      <h3>Caudal (Q)</h3>
+      <p>El caudal es una medida del volumen de fluido que pasa por una sección transversal por unidad de tiempo. Es fundamental en el diseño de sistemas de distribución de agua, oleoductos y sistemas de ventilación.</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Caudal volumétrico</div>
+        <div class="equation">Q = A·v</div>
+        <p>Donde:</p>
+        <ul>
+          <li>Q = caudal (m³/s)</li>
+          <li>A = área transversal (m²)</li>
+          <li>v = velocidad media (m/s)</li>
+        </ul>
+      </div>
+      
+      <div class="equation-container">
+        <div class="equation-title">Caudal másico</div>
+        <div class="equation">ṁ = ρ·Q = ρ·A·v</div>
+        <p>Donde:</p>
+        <ul>
+          <li>ṁ = caudal másico (kg/s)</li>
+          <li>ρ = densidad (kg/m³)</li>
+        </ul>
+      </div>
+      
+      <div class="applications">
+        <h4>Medición de caudal</h4>
+        <p>Existen varios métodos para medir caudal:</p>
+        <ol>
+          <li><strong>Tubería Venturi:</strong> Mide diferencia de presión entre sección ancha y estrecha</li>
+          <li><strong>Placa de orificio:</strong> Restricción que genera caída de presión</li>
+          <li><strong>Rotámetros:</strong> Flotador en tubo cónico</li>
+          <li><strong>Medidores ultrasónicos:</strong> Tiempo de tránsito de ondas sonoras</li>
+        </ol>
+      </div>
+      
+      <figure>
+        <img src="img/caudal.png" alt="Ejemplo de caudal">
+        <figcaption>Relación entre área de sección transversal y velocidad del fluido para un caudal constante. En aplicaciones prácticas, se selecciona el diámetro de tubería para mantener velocidades entre 1-3 m/s en agua, evitando pérdidas excesivas por fricción o ruido.</figcaption>
+      </figure>
+
+      <h3>Pérdida de Carga</h3>
+      <p>Las pérdidas de carga representan la energía disipada por el fluido debido a la fricción con las paredes (pérdidas primarias) y a accesorios como codos y válvulas (pérdidas secundarias).</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Ecuación de Darcy-Weisbach</div>
+        <div class="equation">Δp = f·(L/D)·(ρv²/2)</div>
+        <p>Donde:</p>
+        <ul>
+          <li>Δp = pérdida de presión (Pa)</li>
+          <li>f = factor de fricción de Darcy (adimensional)</li>
+          <li>L = longitud de la tubería (m)</li>
+          <li>D = diámetro interno (m)</li>
+          <li>ρ = densidad del fluido (kg/m³)</li>
+          <li>v = velocidad media (m/s)</li>
+        </ul>
+      </div>
+      
+      <div class="theory-box">
+        <h4>Factor de fricción</h4>
+        <p>El factor de fricción f depende del régimen de flujo (Re) y de la rugosidad relativa (ε/D) de la tubería:</p>
+        <ul>
+          <li><span class="key-concept">Flujo laminar (Re &lt; 2300):</span> f = 64/Re</li>
+          <li><span class="key-concept">Flujo turbulento:</span> Se determina con el diagrama de Moody o ecuaciones como Colebrook-White</li>
+        </ul>
+      </div>
+      
+      <figure>
+        <img src="img/perdida_carga.png" alt="Pérdida de carga en tubería">
+        <figcaption>Efecto de la rugosidad en pérdidas de presión. Tuberías más rugosas generan mayor turbulencia y mayores pérdidas de energía, especialmente en flujo turbulento.</figcaption>
+      </figure>
+
+      <h3>Tensión Superficial</h3>
+      <p>La tensión superficial es la energía necesaria para aumentar la superficie de un líquido por unidad de área. Surge de la atracción molecular desbalanceada en la superficie del líquido.</p>
+      
+      <div class="equation-container">
+        <div class="equation-title">Tensión superficial</div>
+        <div class="equation">σ = F / L</div>
+        <p>Donde:</p>
+        <ul>
+          <li>σ = tensión superficial (N/m)</li>
+          <li>F = fuerza requerida (N)</li>
+          <li>L = longitud sobre la que actúa la fuerza (m)</li>
+        </ul>
+      </div>
+      
+      <div class="applications">
+        <h4>Fenómenos relacionados</h4>
+        <ul>
+          <li>Formación de gotas y burbujas</li>
+          <li>Capilaridad (ascenso en tubos estrechos)</li>
+          <li>Movimiento de insectos sobre el agua</li>
+          <li>Procesos de mojado y no mojado</li>
+        </ul>
+      </div>
+      
+      <figure>
+        <img src="img/tension_superficial.png" alt="Tensión superficial">
+        <figcaption>Un mosquito flotando sobre agua debido a la tensión superficial.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Moody como imagen -->
+    <section id="moody">
+      <h2>Diagrama de Moody</h2>
+      <p>El Diagrama de Moody, desarrollado por Lewis Ferry Moody en 1944, es una representación gráfica que relaciona el factor de fricción (f) en tuberías con el número de Reynolds (Re) y la rugosidad relativa (ε/D). Es una herramienta fundamental en el cálculo de pérdidas por fricción en sistemas de flujo.</p>
+      
+      <div class="theory-box">
+        <h4>Interpretación del diagrama</h4>
+        <ol>
+          <li><strong>Zona laminar (Re &lt; 2300):</strong> La línea recta muestra f = 64/Re</li>
+          <li><strong>Zona crítica (2300 &lt; Re &lt; 4000):</strong> Región de transición inestable</li>
+          <li><strong>Zona turbulenta (Re &gt; 4000):</strong> Curvas para diferentes rugosidades relativas</li>
+          <li><strong>Turbulento liso:</strong> Línea inferior donde f depende solo de Re</li>
+          <li><strong>Turbulento rugoso:</strong> Zona superior donde f depende principalmente de ε/D</li>
+        </ol>
+      </div>
+      
+      <figure>
+        <img src="img/moody.png" alt="Diagrama de Moody">
+        <figcaption>Diagrama de Moody completo mostrando el factor de fricción en función del número de Reynolds y rugosidad relativa. Notar la zona de turbulencia completa donde las curvas se vuelven horizontales, indicando que el factor de fricción depende principalmente de la rugosidad.</figcaption>
+      </figure>
+      
+      <div class="applications">
+        <h4>Uso práctico</h4>
+        <p>Para usar el diagrama de Moody:</p>
+        <ol>
+          <li>Calcular el número de Reynolds (Re)</li>
+          <li>Determinar la rugosidad relativa (ε/D) para el material de la tubería</li>
+          <li>Localizar Re en el eje horizontal (logarítmico)</li>
+          <li>Seguir verticalmente hasta intersectar la curva de rugosidad relativa</li>
+          <li>Leer el factor de fricción (f) en el eje izquierdo</li>
+        </ol>
+        <p>Hoy en día, muchos ingenieros usan ecuaciones como Colebrook-White o la aproximación de Swamee-Jain para calcular f numéricamente.</p>
+      </div>
+    </section>
+
+    <!-- Simulación -->
+    <section id="simulacion">
+      <h2>Simulación de Flujo</h2>
+      <p>El comportamiento del flujo de fluidos puede clasificarse en dos regímenes principales:</p>
+      
+      <div class="theory-box">
+        <h4>Flujo Laminar</h4>
+        <p>Caracterizado por:</p>
+        <ul>
+          <li>Capas ordenadas que deslizan sin mezclarse</li>
+          <li>Perfil de velocidad parabólico en tuberías</li>
+          <li>Baja disipación de energía</li>
+          <li>Número de Reynolds bajo (Re &lt; 2300)</li>
+        </ul>
+      </div>
+      
+      <div class="theory-box">
+        <h4>Flujo Turbulento</h4>
+        <p>Caracterizado por:</p>
+        <ul>
+          <li>Movimiento caótico y mezcla intensa de capas</li>
+          <li>Perfil de velocidad más plano en tuberías</li>
+          <li>Alta disipación de energía</li>
+          <li>Número de Reynolds alto (Re &gt; 4000)</li>
+          <li>Presencia de vórtices a múltiples escalas</li>
+        </ul>
+      </div>
+      
+      <div class="controls">
+        <select id="flowType">
+          <option value="laminar">Flujo Laminar</option>
+          <option value="turbulent">Flujo Turbulento</option>
+        </select>
+        <button id="startSim">Iniciar Simulación</button>
+        <button id="stopSim">Detener</button>
+      </div>
+      
+      <canvas id="simCanvas" width="700" height="300"></canvas>
+      
+      <div class="applications">
+        <h4>Importancia en aplicaciones reales</h4>
+        <p>En ingeniería, generalmente se busca flujo laminar cuando se requiere baja resistencia (sistemas de distribución de agua, oleoductos), mientras que el flujo turbulento es deseable cuando se necesita buena mezcla (reactores químicos, intercambiadores de calor).</p>
+      </div>
+    </section>
+
+    <!-- Quiz -->
+    <section id="quiz">
+      <h2>Quiz Interactivo</h2>
+      <p>Evalúa tu comprensión de los conceptos fundamentales de mecánica de fluidos con este cuestionario interactivo. Selecciona la respuesta correcta para cada pregunta.</p>
+      
+      <div id="quiz-container"></div>
+      
+      <div class="controls">
+        <button id="submit-quiz">Enviar respuestas</button>
+        <button id="reset-quiz">Reiniciar</button>
+      </div>
+      
+      <div id="quiz-result" style="margin-top: 1.5rem; font-weight: bold;"></div>
+      
+      <div class="theory-box" style="margin-top: 1.5rem;">
+        <h4>¿Por qué es importante entender estos conceptos?</h4>
+        <p>La mecánica de fluidos es fundamental para resolver problemas prácticos como:</p>
+        <ul>
+          <li>Diseño de sistemas de abastecimiento de agua</li>
+          <li>Cálculo de pérdidas de presión en ductos</li>
+          <li>Determinación de fuerzas sobre estructuras en corrientes</li>
+          <li>Optimización de sistemas de ventilación</li>
+          <li>Diseño de sistemas de extinción de incendios</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.18/katex.min.js"></script>
+  <script src="js/simulacion.js"></script>
+  <script src="js/quiz.js"></script>
+  <script>
+    // Renderizar ecuaciones con KaTeX
+    document.addEventListener('DOMContentLoaded', function() {
+      const equations = document.querySelectorAll('.equation');
+      equations.forEach(eq => {
+        katex.render(eq.textContent, eq, {
+          throwOnError: false,
+          displayMode: eq.parentNode.classList.contains('equation-container')
+        });
+      });
+    });
+  </script>
+</body>
+</html>
